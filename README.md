@@ -14,7 +14,7 @@
 ### 平移动画
 animation_translate.xml<br>
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <translate xmlns:android="http://schemas.android.com/apk/res/android"
     android:fromXDelta="0"
@@ -27,7 +27,7 @@ animation_translate.xml<br>
 ```
 TweenTranslateActivity.class<br>
 
-```
+```kotlin
         val translateAnimation = AnimationUtils.loadAnimation(this,R.anim.animation_translate)
 //        val translateAnimation = TranslateAnimation(0f,500f,0f,1000f)
 //        translateAnimation.duration = 2000
@@ -44,7 +44,7 @@ TweenTranslateActivity.class<br>
 
 animation_tween_scale.xml<br>
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <scale xmlns:android="http://schemas.android.com/apk/res/android"
     android:fromXScale="0"
@@ -59,7 +59,7 @@ animation_tween_scale.xml<br>
 ```
 TweenScaleActivity.class<br>
 
-```
+```kotlin
         val scaleAnimation = AnimationUtils.loadAnimation(this,R.anim.animation_tween_scale)
 //        val scaleAnimation = ScaleAnimation(0f,3f,0f,3f, Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f)
 //        scaleAnimation.duration = 2000
@@ -76,7 +76,7 @@ TweenScaleActivity.class<br>
 
 animation_tween_rotate.xml<br>
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <rotate xmlns:android="http://schemas.android.com/apk/res/android"
 
@@ -90,7 +90,7 @@ animation_tween_rotate.xml<br>
 ```
 TweenRotateActivity.class<br>
 
-```
+```kotlin
         val rotateAnimation = AnimationUtils.loadAnimation(this,R.anim.animation_tween_rotate)
 //        val rotateAnimation = RotateAnimation(0f,270f, Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f)
 //        rotateAnimation.duration = 2000
@@ -107,7 +107,7 @@ TweenRotateActivity.class<br>
 
 animation_tween_alpha.xml<br>
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <alpha xmlns:android="http://schemas.android.com/apk/res/android"
 
@@ -119,7 +119,7 @@ animation_tween_alpha.xml<br>
 ```
 TweenAlphaActivity.class<br>
 
-```
+```kotlin
         val alphaAnimation = AnimationUtils.loadAnimation(this,R.anim.animation_tween_alpha)
 //        val alphaAnimation = AlphaAnimation(1f,0.2f)
 //        alphaAnimation.duration = 2000
@@ -136,7 +136,7 @@ TweenAlphaActivity.class<br>
 
 animation_tween_set.xml<br>
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android"
     android:fillAfter = "true"
@@ -182,7 +182,7 @@ animation_tween_set.xml<br>
 ```
 TweenSetActivity.class<br>
 
-```
+```kotlin
         val tweenSetAnimation = AnimationUtils.loadAnimation(this,R.anim.animation_tween_set)
 //        val tweenSetAnimation = AnimationSet(true)
 //        tweenSetAnimation.fillAfter = true
@@ -230,7 +230,7 @@ android:interpolator = @[package:]anim/interpolator_resource // 插值器<br>
 使用AnimationListener对动画进行监听,实现自己需求<br>
 TweenSetActivity.class<br>
 
-```
+```kotlin
         tweenSetAnimation.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationStart(animation: Animation) {
 
@@ -251,7 +251,7 @@ TweenSetActivity.class<br>
 ### 实现平移动画
 属性动画是对属性进行操作，最好动态在代码中处理，以动态获取开始属性，虽然也可是使用xml实现属性动画，但不建议使用。下面仅给出kotlin示例:<br>
 
-```
+```kotlin
         val valueAnimatorOfFloat1 = ValueAnimator.ofFloat(image.x,500f)
         val valueAnimatorOfFloat2 = ValueAnimator.ofFloat(image.y,1000f)
         
@@ -276,7 +276,7 @@ TweenSetActivity.class<br>
 ```
 我们自己监听了`ValueAnimator`，实现了image的属性变化。其实android为开发者提供了动画相关的类`ObjectAnimator`,来简化代码。<br>
 
-```
+```kotlin
         val objectAnimator1 = ObjectAnimator.ofFloat(image,"translationX",image.x,500f)
         val objectAnimator2 = ObjectAnimator.ofFloat(image,"translationY",image.y,1000f)
 
@@ -290,7 +290,7 @@ TweenSetActivity.class<br>
 以上便可以实现上面补间动画的效果，但是定义了两个`Animator`，比较复杂，我们使用`ValueAnimator.ofObject`来处理两个属性的变化。<br>
 定义一个位置信息的类`Position`<br>
 
-```
+```kotlin
     class Position(x: Float, y: Float) {
         val x = x
         val y = y
@@ -299,7 +299,7 @@ TweenSetActivity.class<br>
 
 自定义一个估值器`PositionEvaluator`<br>
 
-```
+```kotlin
     class PositionEvaluator : TypeEvaluator<Position> {
 
         override fun evaluate(fraction: Float, startValue: Position, endValue: Position): Position {
@@ -311,7 +311,7 @@ TweenSetActivity.class<br>
 ```
 PropertyTranslateActivity.class<br>
 
-```
+```kotlin
         val valueAnimatorOfObject = ValueAnimator.ofObject(PositionEvaluator(),Position(image.x,image.y),Position(500f,1000f))
         valueAnimatorOfObject.duration = 2000
 
@@ -326,7 +326,7 @@ PropertyTranslateActivity.class<br>
 ### 实现缩放动画
 与平移动画实现类似，使用`ScaleX`,`ScaleY`<br>
 
-```
+```kotlin
 	val objectAnimator1 = ObjectAnimator.ofFloat(image,"ScaleX",1f,3f)
 	val objectAnimator2 = ObjectAnimator.ofFloat(image,"ScaleY",1f,3f)
 		...
@@ -335,7 +335,7 @@ PropertyTranslateActivity.class<br>
 ### 实现旋转动画
 同理,使用`Rotation`<br>
 
-```
+```kotlin
 	val objectAnimator = ObjectAnimator.ofFloat(image,"Rotation",0f,360f)
 	...
 ```
